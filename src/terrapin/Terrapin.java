@@ -30,9 +30,9 @@ import processing.core.PApplet;
  */
 public class Terrapin {
 	/** x location on screen. */
-	public int x;
+	public float x;
 	/** y location on screen. */
-	public int y;
+	public float y;
 	/** Colour of line drawn by Terrapin (as a Processing color). */
 	public int drawColor;
 	/** If false, the Terrapin moves but does not leave a trail. */
@@ -77,7 +77,7 @@ public class Terrapin {
 	 * @param amount
 	 *            number of pixels to move by.
 	 */
-	public void backward(int amount) {
+	public void backward(float amount) {
 		forward(-amount);
 	}
 	
@@ -87,8 +87,8 @@ public class Terrapin {
 	 * @param amount
 	 *            number of pixels to move by.
 	 */
-	public void forward(int amount) {
-		int newX, newY;
+	public void forward(float amount) {
+		float newX, newY;
 		float rotRad = PApplet.radians(rotation);
 		newX = x + PApplet.round(amount * PApplet.cos(rotRad));
 		newY = y + PApplet.round(amount * PApplet.sin(rotRad));
@@ -104,8 +104,8 @@ public class Terrapin {
 	 *            location in y axis.
 	 * @return distance in pixels.
 	 */
-	public int getDistance(int otherX, int otherY) {
-		return (int) Math.sqrt(Math.pow((otherX - x), 2) + Math.pow((otherY - y), 2));
+	public float getDistance(float otherX, float otherY) {
+		return (float) Math.sqrt(Math.pow((otherX - x), 2) + Math.pow((otherY - y), 2));
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class Terrapin {
 	 *            the other Terrapin.
 	 * @return distance in pixels.
 	 */
-	public int getDistance(Terrapin t) {
+	public float getDistance(Terrapin t) {
 		return getDistance(t.x, t.y);
 	}
 	
@@ -128,10 +128,10 @@ public class Terrapin {
 	 */
 	public Terrapin getNearest(List<Terrapin> Terrapins) {
 		Terrapin nearest = null;
-		int nearestDist = Integer.MAX_VALUE;
+		float nearestDist = Float.MAX_VALUE;
 		
 		for (Terrapin t : Terrapins) {
-			int newDist = getDistance(t.x, t.y);
+			float newDist = getDistance(t.x, t.y);
 			if (newDist < nearestDist) {
 				nearest = t;
 				nearestDist = newDist;
@@ -146,6 +146,7 @@ public class Terrapin {
 	 * 
 	 * @return angle in degrees.
 	 */
+	/* FIXME: should this be float as well? */
 	public int getRotation() {
 		return Math.round(rotation);
 	}
@@ -156,7 +157,7 @@ public class Terrapin {
 	 * @param amount
 	 *            angle in degrees.
 	 */
-	public void left(int amount) {
+	public void left(float amount) {
 		rotation -= amount;
 	}
 	
@@ -169,7 +170,7 @@ public class Terrapin {
 	 * @param y
 	 *            location in y axis
 	 */
-	protected void moveTo(int x, int y) {
+	protected void moveTo(float x, float y) {
 		if (drawing) {
 			applet.stroke(drawColor);
 			applet.line(this.x, this.y, x, y);
@@ -192,7 +193,7 @@ public class Terrapin {
 	 *            jump straight to (x,y), 0.5f will cause it to move half way
 	 *            there, etc.
 	 */
-	public void moveToward(int toX, int toY, float amount) {
+	public void moveToward(float toX, float toY, float amount) {
 		moveToward(toX, toY, (int) (getDistance(toX, toY) * amount));
 	}
 	
@@ -241,6 +242,8 @@ public class Terrapin {
 	 *            
 	 * @see terrapin.Terrapin#moveToward(int, int, int)
 	 */
+	/* FIXME: this assumes that int amounts are absolute values and floats are a factors
+	 * this should probably use a different method name */
 	public void moveToward(Terrapin t, int amount) {
 		moveToward(t.x, t.y, amount);
 	}
@@ -308,7 +311,7 @@ public class Terrapin {
 	 * @param amount
 	 *            angle in degrees.
 	 */
-	public void right(int amount) {
+	public void right(float amount) {
 		rotation += amount;
 	}
 	
@@ -321,7 +324,7 @@ public class Terrapin {
 	 * @param y
 	 *            location in y axis.
 	 */
-	public void setLocation(int x, int y) {
+	public void setLocation(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -357,7 +360,7 @@ public class Terrapin {
 	 * @param rotation
 	 *            angle in degrees.
 	 */
-	public void setRotation(int rotation) {
+	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
 	
@@ -384,7 +387,21 @@ public class Terrapin {
 		forward(amount);
 		left(90);
 	}
-	
+
+        /**
+         * take the pen up (do not draw subsequent movements)
+         */
+        public void up() {
+          drawing=false;
+        }
+        
+        /**
+         * put the pen down (draw subsequent movements)
+         */
+        public void down() {
+          drawing=true;
+        }
+
 	/**
 	 * Convert the Terrapin to a String representation
 	 * 
@@ -392,7 +409,7 @@ public class Terrapin {
 	 */
 	@Override
 	public String toString() {
-		return "Terrapin at " + x + "," + y;
+		return "Terrapin at " + x + "," + y + " facing " + getRotation();
 	}
 	
 }

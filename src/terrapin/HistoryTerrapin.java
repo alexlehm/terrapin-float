@@ -77,7 +77,7 @@ public class HistoryTerrapin extends Terrapin {
 	 *            location in y axis
 	 */
 	@Override
-	protected void moveTo(int x, int y) {
+	protected void moveTo(float x, float y) {
 		if (drawing) {
 			lines.add(new Line(applet, this.x, this.y, x, y, drawColor));
 		}
