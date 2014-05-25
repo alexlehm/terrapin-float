@@ -2,6 +2,8 @@ terrapin-float: Fork of terrapin.sourceforge.net
 
 This is a Turtle Graphics library for Processing (processing.org).
 
-I'll try to implement a few improvements, most importantly calculations in float
-to avoid rounding errors (see examples).
+The code works with a float implementation, apparently I forgot to change the README when I commited that.
+
+The project could use a bit of cleanup plus it needs a build file, previously I only build it inside Eclipse
+and exported the class files to a jar, that is a bit complicated to automate.
 
