@@ -1,6 +1,6 @@
 terrapin-float: Fork of terrapin.sourceforge.net
 
-This is a Turtle Graphics library for Processing (processing.org).
+This is a Turtle Graphics library for Processing (http://processing.org).
 
 Some improvements, most importantly calculations in float
 to avoid rounding errors (see examples).
