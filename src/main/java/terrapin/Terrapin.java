@@ -51,8 +51,8 @@ public class Terrapin {
 	 */
 	public Terrapin(PApplet applet) {
 		this.applet = applet;
-		x = applet.width / 2;
-		y = applet.height / 2;
+		x = (float) (applet.width / 2.0);
+		y = (float) (applet.height / 2.0);
 		drawColor = applet.color(255, 255, 255);
 	}
 	
@@ -193,6 +193,8 @@ public class Terrapin {
 	 *            jump straight to (x,y), 0.5f will cause it to move half way
 	 *            there, etc.
 	 */
+  /* FIXME: this assumes that int amounts are absolute values and floats are a factors
+   * this should probably use a different method name and use all floats */
 	public void moveToward(float toX, float toY, float amount) {
 		moveToward(toX, toY, (int) (getDistance(toX, toY) * amount));
 	}
@@ -207,7 +209,7 @@ public class Terrapin {
 	 * @param amount
 	 *            number of pixels to move toward (x,y).
 	 */
-	public void moveToward(int toX, int toY, int amount) {
+	public void moveToward(float toX, float toY, int amount) {
 		applet.pushMatrix();
 		applet.translate(x, y);
 		rotation = PApplet.degrees(PApplet.atan2(toY - y, toX - x));
@@ -242,8 +244,8 @@ public class Terrapin {
 	 *            
 	 * @see terrapin.Terrapin#moveToward(int, int, int)
 	 */
-	/* FIXME: this assumes that int amounts are absolute values and floats are a factors
-	 * this should probably use a different method name */
+  /* FIXME: this assumes that int amounts are absolute values and floats are a factors
+   * this should probably use a different method name and use all floats */
 	public void moveToward(Terrapin t, int amount) {
 		moveToward(t.x, t.y, amount);
 	}
